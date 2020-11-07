@@ -37,13 +37,13 @@ def pictures(n, A, B):
     frames = []
     for i in range(n):
         A, B = gray_scott_algorithm(A, B, DA=0.16, DB=0.08, f=0.050, k=0.062, dt=1.0)
-        frame = plt.imshow(A, cmap='copper')
+        frame = plt.imshow(A, cmap='prism')
         frames.append([frame])
     return frames
 
 
 A, B = initial_conditions(n=300, a=0.05, b=0.08)
 fig = plt.figure()
-animation.ArtistAnimation(fig, pictures(1000, A, B), interval=100, blit=True, repeat=False)
+animation.ArtistAnimation(fig, pictures(100, A, B), interval=100, blit=True, repeat=False)
 plt.axis('off')
 plt.show()
