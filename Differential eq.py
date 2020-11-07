@@ -85,8 +85,8 @@ DA = 0.18
 DB = 0.077
 
 # define feed/kill rates
-f = 0.050
-k = 0.062
+f = 0.08
+k = 0.05
 
 # grid size
 N = 200
