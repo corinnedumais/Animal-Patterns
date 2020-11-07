@@ -44,6 +44,6 @@ def pictures(n, A, B):
 
 A, B = initial_conditions(n=300, a=0.05, b=0.08)
 fig = plt.figure()
-animation.ArtistAnimation(fig, pictures(1000, A, B), interval=100, blit=True, repeat=False)
+animation.ArtistAnimation(fig, pictures(100, A, B), interval=100, blit=True, repeat=False)
 plt.axis('off')
 plt.show()

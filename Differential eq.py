@@ -87,8 +87,7 @@ N_simulation_steps = 2000
 A, B = get_square_ci(200)
 
 for t in range(N_simulation_steps):
-    if t % 10 == 0:
-        A, B = update(A, B, DA, DB, f, k, delta_t)
+    A, B = update(A, B, DA, DB, f, k, delta_t)
     if t % 75 == 0:
         draw(A, B)
 
