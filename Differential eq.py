@@ -68,11 +68,11 @@ def get_stripe_ci(N, random_influence=0.3):
     # Let's assume there's only a bit of B everywhere
     B = random_influence * np.random.random((N, N))
 
-    A[:, int(N/2):int(N/2) + 5] = 0.75
-    B[:, int(N/2):int(N/2) + 5] = 0.25
+    A[int(N/2):int(N/2) + 5, :] = 0.75
+    B[int(N/2):int(N/2) + 5, :] = 0.25
 
-    A[:, int(N / 8):int(N / 8) + 5] = 0.75
-    B[:, int(N / 8):int(N / 8) + 5] = 0.25
+    A[int(N/2):int(N/2) + 5, :] = 0.75
+    B[int(N/2):int(N/2) + 5, :] = 0.25
 
     return A, B
 
@@ -105,7 +105,7 @@ N = 200
 # simulation steps
 N_simulation_steps = 14000
 
-A, B = get_stripe_ci(200)
+A, B = get_stripe_ci(300)
 
 for t in range(N_simulation_steps):
     A, B = gray_scott_update(A, B, DA, DB, f, k, delta_t)
