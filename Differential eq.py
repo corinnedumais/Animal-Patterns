@@ -27,17 +27,10 @@ def get_square_ci(N, random_influence=0.3):
 
     # Now let's add a disturbance in the center
     N2 = N // 2
-    N3 = N // 3
-    r = int(N / 60.0)
+    r = int(N / 30.0)
 
     A[N2 - r:N2 + r, N2 - r:N2 + r] = 0.50
     B[N2 - r:N2 + r, N2 - r:N2 + r] = 0.25
-
-    A[N3 - r:N3 + r, N3 - r:N3 + r] = 0.50
-    B[N3 - r:N3 + r, N2 - r:N3 + r] = 0.25
-
-    A[2*N3 - r:2*N3 + r, 2*N3 - r:2*N3 + r] = 0.50
-    B[2*N3 - r:2*N3 + r, 2*N3 - r:2*N3 + r] = 0.25
 
     return A, B
 
@@ -69,36 +62,34 @@ def get_guepard(N, random_influence=0.3):
 
 def draw(A, B):
     fig, ax = plt.subplots(1, 2, figsize=(5.65, 4))
-    ax[0].imshow(A, cmap='copper'), ax[0].set_title('A'), ax[0].axis('off')
-    ax[1].imshow(B, cmap='copper'), ax[1].set_title('B'), ax[1].axis('off')
+    ax[0].imshow(A, cmap='summer'), ax[0].set_title('A'), ax[0].axis('off')
+    ax[1].imshow(B, cmap='summer'), ax[1].set_title('B'), ax[1].axis('off')
     plt.show()
 
-
-# A, B = get_initial_configuration(200)
-# draw(A, B)
 
 # update in time
 delta_t = 1.0
 
 # Diffusion coefficients
 DA = 0.18
-DB = 0.077
+DB = 0.082
 
 # define feed/kill rates
-f = 0.050
-k = 0.062
+f = 0.08
+k = 0.05
 
 # grid size
 N = 200
 
 # simulation steps
-N_simulation_steps = 14000
+N_simulation_steps = 2000
 
 A, B = get_square_ci(200)
 
 for t in range(N_simulation_steps):
-    A, B = update(A, B, DA, DB, f, k, delta_t)
-    if t % 100 == 0:
+    if t % 10 == 0:
+        A, B = update(A, B, DA, DB, f, k, delta_t)
+    if t % 75 == 0:
         draw(A, B)
 
 
