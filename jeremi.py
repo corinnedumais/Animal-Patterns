@@ -25,6 +25,7 @@ def gray_scott_algorithm(A, B, DA, DB, f, k, dt):
 def initial_conditions(n, a, b, r=0.3):
     A = r * np.random.random((n, n)) + (1 - r) * np.ones((n, n))
     B = r * np.random.random((n, n))
+    # centered disturbance
     c = n // 2
     d = int(n / 100.0)
     A[c - d:c + d, c - d:c + d] = a
@@ -32,23 +33,18 @@ def initial_conditions(n, a, b, r=0.3):
     return A, B
 
 
-def plot(M):
-    plt.figure()
-    plt.imshow(M, cmap='copper')
-    plt.axis('off')
-    plt.show()
+def pictures(n, A, B):
+    frames = []
+    for i in range(n):
+        A, B = gray_scott_algorithm(A, B, DA=0.16, DB=0.08, f=0.050, k=0.062, dt=1.0)
+        frame = plt.imshow(A, cmap='copper')
+        frames.append(frame)
+        plt.axis('off')
+    return frames
 
 
-def frame(A, B):
-    A, B = gray_scott_algorithm(A, B, DA=0.16, DB=0.08, f=0.050, k=0.062, dt=1.0)
-    return A
+A, B = initial_conditions(n=300, a=0.50, b=0.50)
+fig = plt.figure()
+animation.ArtistAnimation(fig, pictures(100, A, B))
+plt.show()
 
-
-def animate(initial, algorithm):
-    fig = plt.figure()
-    animation.FuncAnimation(fig, init_func=initial, func=algorithm)
-    plt.show()
-
-
-A, B = initial_conditions(n=300, a=0.70, b=0.25)
-animate(initial=A, algorithm=frame(A, B))
