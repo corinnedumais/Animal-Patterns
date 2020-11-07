@@ -36,7 +36,7 @@ def gray_scott_update(A, B, DA, DB, f, k, delta_t):
     return A, B
 
 
-def get_initial_configuration(N, random_influence=0.2):
+def get_square_ci(N, random_influence=0.3):
     """
     Initialize a concentration configuration. N is the side length
     of the (N x N)-sized grid.
@@ -52,7 +52,7 @@ def get_initial_configuration(N, random_influence=0.2):
 
     # Now let's add a disturbance in the center
     N2 = N // 2
-    radius = r = int(N / 10.0)
+    r = int(N / 10.0)
 
     A[N2 - r:N2 + r, N2 - r:N2 + r] = 0.50
     B[N2 - r:N2 + r, N2 - r:N2 + r] = 0.25
@@ -60,15 +60,28 @@ def get_initial_configuration(N, random_influence=0.2):
     return A, B
 
 
+def get_stripe_ci(N, random_influence=0.3):
+    # We start with a configuration where on every grid cell
+    # there's a lot of chemical A, so the concentration is high
+    A = (1 - random_influence) * np.ones((N, N)) + random_influence * np.random.random((N, N))
+
+    # Let's assume there's only a bit of B everywhere
+    B = random_influence * np.random.random((N, N))
+
+    A[:, int(N/2):int(N/2) + 5] = 0.75
+    B[:, int(N/2):int(N/2) + 5] = 0.25
+
+    A[:, int(N / 8):int(N / 8) + 5] = 0.75
+    B[:, int(N / 8):int(N / 8) + 5] = 0.25
+
+    return A, B
+
+
 def draw(A, B):
     """draw the concentrations"""
     fig, ax = plt.subplots(1, 2, figsize=(5.65, 4))
-    ax[0].imshow(A, cmap='Greys')
-    ax[1].imshow(B, cmap='Greys')
-    ax[0].set_title('A')
-    ax[1].set_title('B')
-    ax[0].axis('off')
-    ax[1].axis('off')
+    ax[0].imshow(A, cmap='Greys'), ax[0].set_title('A'), ax[0].axis('off')
+    ax[1].imshow(B, cmap='Greys'), ax[1].set_title('B'), ax[1].axis('off')
     plt.show()
 
 
@@ -83,21 +96,21 @@ DA = 0.16
 DB = 0.08
 
 # define feed/kill rates
-f = 0.060
+f = 0.050
 k = 0.062
 
 # grid size
 N = 200
 
 # simulation steps
-N_simulation_steps = 10000
+N_simulation_steps = 14000
 
-A, B = get_initial_configuration(200)
+A, B = get_stripe_ci(200)
 
 for t in range(N_simulation_steps):
     A, B = gray_scott_update(A, B, DA, DB, f, k, delta_t)
-
-draw(A, B)
+    if t % 1000 == 0:
+        draw(A, B)
 
 
 
