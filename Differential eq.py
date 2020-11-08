@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import animation
 from matplotlib.patches import Circle
 
 
@@ -82,15 +83,22 @@ k = 0.05
 N = 200
 
 # simulation steps
-N_simulation_steps = 2000
+N_simulation_steps = 10000
 
 A, B = get_square_ci(200)
 
-for t in range(N_simulation_steps):
-    A, B = update(A, B, DA, DB, f, k, delta_t)
-    if t % 75 == 0:
-        draw(A, B)
+ims = []
 
+for t in range(N_simulation_steps):
+    if t % 10 == 0:
+        A, B = update(A, B, DA, DB, f, k, delta_t)
+        ims.append([plt.imshow(A)])
+
+fig = plt.figure()
+
+ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True, repeat=False)
+
+plt.show()
 
 
 
