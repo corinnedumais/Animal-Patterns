@@ -1,5 +1,3 @@
-# Animal-Patterns
-
 # Reaction-Diffusion Patterns
 
 A Python implementation of the **Gray-Scott reaction-diffusion model**, developed during the **McGill Hackathon**.
